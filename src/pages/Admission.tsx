@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const supabase = createClient(
@@ -36,7 +35,6 @@ const formSchema = z.object({
 
 export default function Admission() {
   const { user } = useUser();
-  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,11 +53,7 @@ export default function Admission() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!user) {
-      toast({
-        title: 'Error',
-        description: 'You must be signed in to submit an admission application',
-        variant: 'destructive',
-      });
+      console.log("some error found.")
       return;
     }
 
@@ -75,21 +69,11 @@ export default function Admission() {
 
       if (error) throw error;
 
-      toast({
-        title: 'Success',
-        description: 'Admission application submitted successfully',
-      });
-
       form.reset();
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to submit admission application. Please try again.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsSubmitting(false);
+      console.log(error);
     }
+    
   }
 
   return (

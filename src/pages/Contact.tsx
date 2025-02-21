@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
@@ -25,7 +24,7 @@ const formSchema = z.object({
 });
 
 export default function Contact() {
-  const { toast } = useToast();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,20 +41,14 @@ export default function Contact() {
     setIsSubmitting(true);
     try {
       // Here you would typically send the form data to your backend
+      
       console.log(values);
       
-      toast({
-        title: 'Success',
-        description: 'Your message has been sent. We will get back to you soon.',
-      });
-
+      
       form.reset();
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to send message. Please try again.',
-        variant: 'destructive',
-      });
+      console.log(error);
+      
     } finally {
       setIsSubmitting(false);
     }
